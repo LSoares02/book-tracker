@@ -16,10 +16,12 @@ async function insertOnMongo({ user, document }) {
   if (Array.isArray(document)) {
     return await createMany(client, collection, document);
   } else {
+    const id = document._id;
+    delete document._id;
     return await insertOrUpdateDoc(
       client,
       collection,
-      document._id ? document._id : null,
+      id ? id : null,
       document
     );
   }

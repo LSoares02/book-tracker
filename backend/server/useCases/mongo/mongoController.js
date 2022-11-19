@@ -37,8 +37,47 @@ async function deleteController(req, res) {
   res.send(await deleteFromMongo(req.body));
 }
 
+async function signupController(req, res) {
+  // req.body should be something like:
+  //   {
+  //     user: true,
+  //     username: "example@email.com",
+  //     document: {
+  //       username: "example@email.com",
+  //       password: "****"
+  //     },
+  //   };
+  console.log(req.body);
+  const emailAccounts = await getFromMongo(req.body);
+  console.log(emailAccounts);
+  if (emailAccounts.length == 0) {
+    res.send({ result: "created", reason: await insertOnMongo(req.body) });
+  } else {
+    res.send({
+      result: "ignored",
+      reason: "email already exists",
+    });
+  }
+}
+
+async function loginController(req, res) {
+  // req.body should be something like:
+  //   {
+  //     user: true,
+  //     username: "example@email.com",
+  //     password: "****"
+  //
+  //   };
+  console.log(req.body);
+  const emailAccounts = await getFromMongo(req.body);
+  console.log(emailAccounts);
+  res.send(emailAccounts.find((user) => user.password == req.body.password));
+}
+
 module.exports = {
   insertController,
   getController,
   deleteController,
+  signupController,
+  loginController,
 };
