@@ -3,13 +3,25 @@ import { Tile, Stack, Grid, Column } from "@carbon/react";
 import { AddAlt } from "@carbon/icons-react";
 
 import "./style.scss";
+import { useGlobalState } from "../../hooks/globalState";
+import generateDate from "../../helpers/generateDate";
 
 export default function AddBooksCard({ message }) {
+  const { user, setBookInfo, setOpenBookInfoModal } = useGlobalState();
   return (
     <Tile
       id="noBookCard"
       onClick={() => {
-        alert("Open Add Book Modal");
+        setBookInfo({
+          title: "",
+          author: "",
+          dateAdded: generateDate(),
+          dateCompleted: null,
+          score: null,
+          status: "Quero Ler",
+          user: user,
+        });
+        setOpenBookInfoModal(true);
       }}
     >
       <Grid>

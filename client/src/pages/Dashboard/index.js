@@ -7,6 +7,7 @@ import { useGlobalState } from "../../hooks/globalState";
 import { useEffect } from "react";
 import { getUserBookList } from "../../helpers/apiCalls";
 import AddBooksCard from "../../components/AddBooksCard";
+import BookInfoModal from "../../components/BookInfoModal";
 
 export default function Dashboard() {
   const { lightMode, user, books, setBooks, loading, setLoading } =
@@ -28,6 +29,7 @@ export default function Dashboard() {
   return (
     <Theme theme={lightMode ? "white" : "g100"}>
       <Header />
+      <BookInfoModal />
       <Grid>
         {books.length > 0 ? (
           books

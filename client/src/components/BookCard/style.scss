@@ -6,7 +6,19 @@
   cursor: pointer;
 }
 
-.bookCard h1 {
+.bookCard h3 {
   padding-bottom: 10px;
-  font-weight: 500;
+  font-weight: bold;
+}
+.bookCard p b {
+  font-weight: bold;
+}
+
+.closeIconContainer {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+.deleteIcon:hover {
+  color: #da1e28;
 }

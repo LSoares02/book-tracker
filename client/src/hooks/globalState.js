@@ -4,9 +4,11 @@ const GlobalStateContext = createContext({});
 
 export default function GlobalStateProvider({ children }) {
   const [language, setLanguage] = useState("en");
-  const [lightMode, setLightMode] = useState(false);
+  const [lightMode, setLightMode] = useState(true);
 
   const [books, setBooks] = useState([]);
+  const [bookInfo, setBookInfo] = useState({});
+  const [openBookInfoModal, setOpenBookInfoModal] = useState(false);
 
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({ user: "example@email.com" });
@@ -20,6 +22,10 @@ export default function GlobalStateProvider({ children }) {
         setLightMode,
         books,
         setBooks,
+        bookInfo,
+        setBookInfo,
+        openBookInfoModal,
+        setOpenBookInfoModal,
         loading,
         setLoading,
         user,
