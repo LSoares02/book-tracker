@@ -15,8 +15,10 @@ app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
 // routes and api calls
 const healthRoute = require("./routes/health/healthRoute");
-
 app.use("/health", healthRoute);
+
+const mongoRoute = require("./routes/mongo/mongoRoute");
+app.use("/mongo", mongoRoute);
 
 app.use(express.static(path.join(__dirname, "../public")));
 
