@@ -55,13 +55,12 @@ export default function BookInfoModal() {
 
   async function handleSubmit() {
     const response = await insertBook(bookInfo, user);
-    const mongoId = response?.upserted[0]?._id;
-    console.log(mongoId);
     const index = books.findIndex((book) => book._id === bookInfo._id);
     if (index != -1) {
       books[index] = bookInfo;
       setBooks(books);
     } else {
+      const mongoId = response?.upserted[0]?._id;
       if (mongoId) bookInfo._id = mongoId;
       setBooks([bookInfo].concat(books));
     }

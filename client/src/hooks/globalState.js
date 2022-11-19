@@ -11,7 +11,7 @@ export default function GlobalStateProvider({ children }) {
   const [openBookInfoModal, setOpenBookInfoModal] = useState(false);
 
   const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState({ user: "example@email.com" });
+  const [user, setUser] = useState(null);
 
   return (
     <GlobalStateContext.Provider

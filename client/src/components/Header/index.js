@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import {
   Light,
@@ -23,6 +24,9 @@ import "./style.scss";
 export default function SimpleHeader() {
   const { user, lightMode, setLightMode } = useGlobalState();
 
+  const location = useLocation();
+  const navigate = useNavigate();
+
   return (
     <Header aria-label="IBM Platform Name">
       <HeaderName prefix="LSoares">Book Tracker</HeaderName>
@@ -36,15 +40,21 @@ export default function SimpleHeader() {
         >
           {lightMode ? <Asleep /> : <Light />}
         </HeaderGlobalAction>
-        <HeaderGlobalAction aria-label="Notifications" onClick={() => {}}>
-          <Notification />
-        </HeaderGlobalAction>
-        <HeaderGlobalAction
-          aria-label={user ? "Logout" : "Login"}
-          onClick={() => {}}
-        >
-          {user ? <Logout /> : <Login />}
-        </HeaderGlobalAction>
+        {!location.pathname.includes("/login") && (
+          <>
+            <HeaderGlobalAction aria-label="Notifications" onClick={() => {}}>
+              <Notification />
+            </HeaderGlobalAction>
+            <HeaderGlobalAction
+              aria-label={user ? "Logout" : "Login"}
+              onClick={() => {
+                navigate("/login");
+              }}
+            >
+              {user ? <Logout /> : <Login />}
+            </HeaderGlobalAction>
+          </>
+        )}
       </HeaderGlobalBar>
     </Header>
   );
