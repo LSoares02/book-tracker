@@ -13,6 +13,9 @@ export default function GlobalStateProvider({ children }) {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(null);
 
+  const [showNotification, setShowNotification] = useState(false);
+  const [notificationText, setNotificationText] = useState(false);
+
   return (
     <GlobalStateContext.Provider
       value={{
@@ -30,6 +33,10 @@ export default function GlobalStateProvider({ children }) {
         setLoading,
         user,
         setUser,
+        showNotification,
+        setShowNotification,
+        notificationText,
+        setNotificationText,
       }}
     >
       {children}

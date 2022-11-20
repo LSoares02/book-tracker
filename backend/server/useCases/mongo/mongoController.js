@@ -47,9 +47,7 @@ async function signupController(req, res) {
   //       password: "****"
   //     },
   //   };
-  console.log(req.body);
   const emailAccounts = await getFromMongo(req.body);
-  console.log(emailAccounts);
   if (emailAccounts.length == 0) {
     res.send({ result: "created", reason: await insertOnMongo(req.body) });
   } else {
@@ -68,9 +66,7 @@ async function loginController(req, res) {
   //     password: "****"
   //
   //   };
-  console.log(req.body);
   const emailAccounts = await getFromMongo(req.body);
-  console.log(emailAccounts);
   res.send(emailAccounts.find((user) => user.password == req.body.password));
 }
 

@@ -20,12 +20,22 @@ import { useNavigate } from "react-router-dom";
 import library from "../../images/library.png";
 
 import "./style.scss";
+import Notification from "../../components/Notification";
 
 export default function LoginPage() {
-  const { lightMode, loading, setLoading, user, setUser, setBooks } =
-    useGlobalState();
+  const {
+    lightMode,
+    loading,
+    setLoading,
+    user,
+    setUser,
+    setBooks,
+    setShowNotification,
+    setNotificationText,
+  } = useGlobalState();
 
   const navigate = useNavigate();
+  const [enableButtons, setEnableButtons] = useState(false);
   const [userData, setUserData] = useState({
     username: "",
     password: "",
@@ -35,17 +45,26 @@ export default function LoginPage() {
     setUser(null);
     setBooks([]);
   }, []);
+  useEffect(() => {
+    if (userData.username && userData.password) setEnableButtons(true);
+    else setEnableButtons(false);
+  }, [userData]);
 
   async function handleSignup() {
     setLoading(true);
     const response = await signup(userData);
-    console.log(response);
     if (response.result === "created") {
       const mongoId = response?.reason.upserted[0]?._id;
       if (mongoId) userData._id = mongoId;
-      console.log(userData);
       setUser(userData);
       navigate("/books");
+    } else if (response.result === "ignored") {
+      setNotificationText({
+        title: "Falha de Sign Up",
+        content: "Este endereço de email já está cadastrado!",
+        kind: "error",
+      });
+      setShowNotification(true);
     }
     setLoading(false);
   }
@@ -56,6 +75,13 @@ export default function LoginPage() {
     if (response) {
       setUser(response);
       navigate("/books");
+    } else {
+      setNotificationText({
+        title: "Falha de Login",
+        content: "Senha ou usuário incorretos.",
+        kind: "error",
+      });
+      setShowNotification(true);
     }
     setLoading(false);
   }
@@ -104,10 +130,18 @@ export default function LoginPage() {
                     }}
                   />
                   <ButtonSet>
-                    <Button kind="secondary" onClick={handleSignup}>
+                    <Button
+                      kind="secondary"
+                      onClick={handleSignup}
+                      disabled={!enableButtons}
+                    >
                       SignUp
                     </Button>
-                    <Button kind="primary" onClick={handleLogin}>
+                    <Button
+                      kind="primary"
+                      onClick={handleLogin}
+                      disabled={!enableButtons}
+                    >
                       LogIn
                     </Button>
                   </ButtonSet>
@@ -117,6 +151,7 @@ export default function LoginPage() {
           </FormGroup>
         </Column>
       </Grid>
+      <Notification />
       {loading ? <Loading /> : ""}
     </Theme>
   );
