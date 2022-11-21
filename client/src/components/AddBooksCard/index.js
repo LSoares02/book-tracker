@@ -7,11 +7,13 @@ import { useGlobalState } from "../../hooks/globalState";
 import generateDate from "../../helpers/generateDate";
 
 export default function AddBooksCard({ message }) {
-  const { user, setBookInfo, setOpenBookInfoModal } = useGlobalState();
+  const { user, setBookInfo, setOpenBookInfoModal, setSearchString } =
+    useGlobalState();
   return (
     <Tile
       id="noBookCard"
       onClick={() => {
+        setSearchString("");
         setBookInfo({
           title: "",
           author: "",

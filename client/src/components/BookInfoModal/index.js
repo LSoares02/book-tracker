@@ -29,6 +29,8 @@ export default function BookInfoModal() {
     user,
     books,
     setBooks,
+    filtered,
+    setFiltered,
     openBookInfoModal,
     setOpenBookInfoModal,
     bookInfo,
@@ -39,8 +41,6 @@ export default function BookInfoModal() {
   const [datePickerDisabled, setDatePickerdisabled] = useState(true);
 
   useEffect(() => {
-    console.log(bookInfo);
-
     if (bookInfo.dateCompleted || bookInfo.status === options[2].text)
       setDatePickerdisabled(false);
     else setDatePickerdisabled(true);
@@ -56,9 +56,14 @@ export default function BookInfoModal() {
   async function handleSubmit() {
     const response = await insertBook(bookInfo, user);
     const index = books.findIndex((book) => book._id === bookInfo._id);
+    const filteredIndex = filtered.findIndex(
+      (book) => book._id === bookInfo._id
+    );
     if (index != -1) {
       books[index] = bookInfo;
+      filtered[filteredIndex] = bookInfo;
       setBooks(books);
+      setFiltered(filtered);
     } else {
       const mongoId = response?.upserted[0]?._id;
       if (mongoId) bookInfo._id = mongoId;
@@ -90,7 +95,6 @@ export default function BookInfoModal() {
                 id="titleInput"
                 labelText="Título"
                 onChange={(e) => {
-                  console.log(e);
                   const clone = { ...bookInfo };
                   clone.title = e.target.value;
                   setBookInfo(clone);

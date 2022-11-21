@@ -56,6 +56,7 @@ export default function LoginPage() {
     if (response.result === "created") {
       const mongoId = response?.reason.upserted[0]?._id;
       if (mongoId) userData._id = mongoId;
+      userData.user = userData.username;
       setUser(userData);
       navigate("/books");
     } else if (response.result === "ignored") {
@@ -71,7 +72,7 @@ export default function LoginPage() {
   async function handleLogin() {
     setLoading(true);
     const response = await login(userData);
-    console.log(response);
+    console.log("ACCOUNT", response);
     if (response) {
       setUser(response);
       navigate("/books");
@@ -90,7 +91,7 @@ export default function LoginPage() {
     <Theme theme={lightMode ? "white" : "g100"}>
       <Header />
       <Grid>
-        <Column Column sm={4} md={8} lg={10} xlg={8}>
+        <Column Column sm={4} md={10} lg={10} xlg={10}>
           <div id="imageContainer">
             <img
               src={library}
@@ -103,7 +104,7 @@ export default function LoginPage() {
             />
           </div>
         </Column>
-        <Column Column sm={4} md={8} lg={10} xlg={8}>
+        <Column Column sm={4} md={8} lg={6} xlg={6}>
           <FormGroup legendId="form-group-login">
             <Grid>
               <Column sm={4} md={8} lg={10} xlg={16}>
