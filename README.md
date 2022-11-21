@@ -12,6 +12,39 @@ Você pode ver uma demo da aplicação [neste vídeo](https://youtu.be/TrrQwEYsU
 
 A aplicação também se encontra disponível através da imagem de container, disponível para _pull_ neste repositório do docker hub: `lucashlsoares/book-tracker:v1`.
 
+# **Estrutura da DB**
+
+Os dados foram divididos em duas collections pertencentes à mesma database no MongoDb:
+
+### **Usuários:**
+
+Cada objeto desta collection identifica um usuário que realizou signup na aplicação:
+
+      {
+            "_id": {
+                  "$oid": "637b1000ef38cfb9eaebb2d5"
+            },
+            "password": "$2a$10$swT0k96ju8RJccmTb5fXROTtumbu9oEtiU.q/DUdTumpUCv0s.Ij.",
+            "user": "lucashlsoares@gmail.com"
+      }
+
+### **Livros:**
+
+Cada objeto desta collection identifica um livro que tenha sido cadastrado por um usuário. Identifica-se qual o usuário responsável através da chave `user`:
+
+      {
+            "_id": {
+                  "$oid": "637b1017ef38cfb9eaebb400"
+            },
+            "author": "José de Alencar",
+            "dateAdded": "21/11/2022",
+            "dateCompleted": "28/10/2022",
+            "score": 4,
+            "status": "Lido",
+            "title": "Iracema",
+            "user": "lucashlsoares@gmail.com"
+      }
+
 # **Como Realizar o Deployment**
 
 Antes de mais nada, por gentileza renomeie o arquivo `example.env` para `.env` e o preencha com as credenciais de sua instância do MongoDb.
