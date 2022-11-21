@@ -20,11 +20,11 @@ app.use("/health", healthRoute);
 const mongoRoute = require("./routes/mongo/mongoRoute");
 app.use("/mongo", mongoRoute);
 
-app.use(express.static(path.join(__dirname, "../public")));
+app.use(express.static(path.join(__dirname, "../build")));
 
 // default path to serve up index.html (single page application)
 app.use("", (req, res) => {
-  res.status(200).sendFile(path.join(__dirname, "../public", "index.html"));
+  res.status(200).sendFile(path.join(__dirname, "../build", "index.html"));
 });
 // error handler for unmatched routes or api calls
 app.use((req, res, next) => {

@@ -8,8 +8,14 @@ import { useGlobalState } from "../../hooks/globalState";
 import { deleteBook } from "../../helpers/apiCalls";
 
 export default function BookCard({ bookData }) {
-  const { books, setBooks, setBookInfo, setOpenBookInfoModal } =
-    useGlobalState();
+  const {
+    books,
+    setBooks,
+    filtered,
+    setFiltered,
+    setBookInfo,
+    setOpenBookInfoModal,
+  } = useGlobalState();
 
   function handleDeletion() {
     setBooks(books.filter((book) => book._id != bookData._id));

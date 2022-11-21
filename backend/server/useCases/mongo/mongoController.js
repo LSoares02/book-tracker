@@ -1,3 +1,4 @@
+const { encryptPassword, checkPassword } = require("../../helpers/crypto");
 const {
   insertOnMongo,
   getFromMongo,
@@ -47,10 +48,12 @@ async function signupController(req, res) {
   //       password: "****"
   //     },
   //   };
-  console.log(req.body);
   const emailAccounts = await getFromMongo(req.body);
-  console.log(emailAccounts);
   if (emailAccounts.length == 0) {
+    req.body.document.password = await encryptPassword(
+      req.body.document.password
+    );
+
     res.send({ result: "created", reason: await insertOnMongo(req.body) });
   } else {
     res.send({
@@ -68,10 +71,18 @@ async function loginController(req, res) {
   //     password: "****"
   //
   //   };
-  console.log(req.body);
   const emailAccounts = await getFromMongo(req.body);
-  console.log(emailAccounts);
-  res.send(emailAccounts.find((user) => user.password == req.body.password));
+  if (emailAccounts.length > 0) {
+    emailAccounts.forEach(async (user, index) => {
+      if (await checkPassword(req.body.password, user.password)) {
+        res.send(user);
+      } else {
+        if (index === emailAccounts.length - 1) res.send(null);
+      }
+    });
+  } else {
+    res.send(null);
+  }
 }
 
 module.exports = {
